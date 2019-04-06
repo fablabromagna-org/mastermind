@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -90,15 +89,20 @@ namespace Nasini.Michele._3H.MasterMind
         {
             if (tentativi < prove.Length)
             {
-                StreamWriter fOut = new StreamWriter("config.csv");
 
-                // Esempio
-                // string l1 = "#FFFF0000;#FF00FF00;#FF0000FF;#FFFFFFFF";
+                string riga = $"{p1.Fill};{p2.Fill};{p3.Fill};{p4.Fill}";
+                
+                // Scrittura
+                StreamWriter fileOut = new StreamWriter("dati.csv");
+                fileOut.WriteLine( riga );
+                fileOut.Close();
 
-                string l1 = $"{p1.Fill};{p2.Fill};{p3.Fill};{p4.Fill}";
+                // Lettura
+                StreamReader fileIn = new StreamReader("dati.csv");
+                string s = fileIn.ReadLine();
+                fileIn.Close();
 
-                fOut.WriteLine(l1);
-                fOut.Close();
+                MessageBox.Show(s);
 
                 prove[tentativi].colore1 = p1.Fill;
                 prove[tentativi].colore2 = p2.Fill;
