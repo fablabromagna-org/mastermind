@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -71,24 +72,34 @@ namespace Nasini.Michele._3H.MasterMind
             _m.colore4 = coloriUsati[indiceCaso];
         }
 
-        private void C1_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Rectangle r = sender as Rectangle;
-            colore = r.Fill;
-
-            MessageBox.Show(colore.ToString());
-        }
-
-        private void P1_MouseEnter(object sender, MouseEventArgs e)
+        private void SceltaColore(object sender, MouseButtonEventArgs e)
         {
             Ellipse el = sender as Ellipse;
             el.Fill = colore;
+
+            //MessageBox.Show(colore.ToString());
+        }
+
+        private void Colora(object sender, MouseEventArgs e)
+        {
+            Rectangle r = sender as Rectangle;
+            colore = r.Fill;
         }
 
         private void BtnSalva_Click(object sender, RoutedEventArgs e)
         {
             if (tentativi < prove.Length)
             {
+                StreamWriter fOut = new StreamWriter("config.csv");
+
+                // Esempio
+                // string l1 = "#FFFF0000;#FF00FF00;#FF0000FF;#FFFFFFFF";
+
+                string l1 = $"{p1.Fill};{p2.Fill};{p3.Fill};{p4.Fill}";
+
+                fOut.WriteLine(l1);
+                fOut.Close();
+
                 prove[tentativi].colore1 = p1.Fill;
                 prove[tentativi].colore2 = p2.Fill;
                 prove[tentativi].colore3 = p3.Fill;
@@ -99,6 +110,16 @@ namespace Nasini.Michele._3H.MasterMind
             }
             else
                 MessageBox.Show("Hai perso!!!");
+        }
+
+        private SolidColorBrush getColore(string s )
+        {
+            // usare così!!!
+            // SolidColorBrush b = getColore( "#FFFF0000" );
+
+            var c = (Color)ColorConverter.ConvertFromString(s);
+            var b = new SolidColorBrush(c);
+            return b;
         }
     }
 }

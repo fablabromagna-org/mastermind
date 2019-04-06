@@ -43,18 +43,19 @@
         </DataGrid>
 
         <StackPanel  Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Ellipse x:Name="p1" MouseEnter="P1_MouseEnter" Width="60" Height="60" Stroke="Black" Margin="5"/>
-            <Ellipse x:Name="p2" MouseEnter="P1_MouseEnter" Width="60" Height="60" Stroke="Black" Margin="5"></Ellipse>
-            <Ellipse x:Name="p3" MouseEnter="P1_MouseEnter" Width="60" Height="60" Stroke="Black" Margin="5"></Ellipse>
-            <Ellipse x:Name="p4" MouseEnter="P1_MouseEnter" Width="60" Height="60" Stroke="Black" Margin="5"></Ellipse>
+            <!-- Ricorda! Se manca Fill, non funziona MouseDown!! -->
+            <Ellipse x:Name="p1" Fill="White" MouseDown="SceltaColore" Width="60" Height="60" Stroke="Black" Margin="5"/>
+            <Ellipse x:Name="p2" Fill="White" MouseDown="SceltaColore" Width="60" Height="60" Stroke="Black" Margin="5"></Ellipse>
+            <Ellipse x:Name="p3" Fill="White" MouseDown="SceltaColore" Width="60" Height="60" Stroke="Black" Margin="5"></Ellipse>
+            <Ellipse x:Name="p4" Fill="White" MouseDown="SceltaColore" Width="60" Height="60" Stroke="Black" Margin="5"></Ellipse>
             <Button x:Name="btnSalva" Click="BtnSalva_Click" Content="Salva" FontSize="25"></Button>
         </StackPanel>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Rectangle MouseDown="C1_MouseDown" x:Name="c1" Width="50" Height="50" Stroke="Black" Margin="5" Fill="Red"></Rectangle>
-            <Rectangle MouseDown="C1_MouseDown" x:Name="c2" Width="50" Height="50" Stroke="Black" Margin="5" Fill="Yellow"></Rectangle>
-            <Rectangle MouseDown="C1_MouseDown" x:Name="c3" Width="50" Height="50" Stroke="Black" Margin="5" Fill="Green"></Rectangle>
-            <Rectangle MouseDown="C1_MouseDown" x:Name="c4" Width="50" Height="50" Stroke="Black" Margin="5" Fill="Blue"></Rectangle>
+            <Rectangle MouseDown="Colora" x:Name="c1" Width="50" Height="50" Stroke="Black" Margin="5" Fill="Red"></Rectangle>
+            <Rectangle MouseDown="Colora" x:Name="c2" Width="50" Height="50" Stroke="Black" Margin="5" Fill="Yellow"></Rectangle>
+            <Rectangle MouseDown="Colora" x:Name="c3" Width="50" Height="50" Stroke="Black" Margin="5" Fill="Green"></Rectangle>
+            <Rectangle MouseDown="Colora" x:Name="c4" Width="50" Height="50" Stroke="Black" Margin="5" Fill="Blue"></Rectangle>
         </StackPanel>
 
     </Grid>
