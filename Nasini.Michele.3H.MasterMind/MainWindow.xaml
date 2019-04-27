@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Nasini.Michele._3H.MasterMind"
         mc:Ignorable="d"
-        Title="MasterMind" Height="600" Width="500" WindowStartupLocation="CenterScreen">
+        Title="MasterMind" Height="600" Width="500" WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing">
     
     <Grid ShowGridLines="True">
         <Grid.RowDefinitions>

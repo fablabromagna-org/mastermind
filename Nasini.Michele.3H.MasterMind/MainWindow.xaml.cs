@@ -24,39 +24,23 @@ namespace Nasini.Michele._3H.MasterMind
     /// </summary>
     public partial class MainWindow : Window
     {
-        Brush[] coloriUsati = { Brushes.Red, Brushes.Green, Brushes.Yellow, Brushes.Blue };
-        Master sequenzaSegreta = new Master();
+        // Nome del file dove salvare...
+        const string NOMEFILE_SEQUENZASEGRETA = "dati.txt";
+
+        Brush[] coloriUsati = { Brushes.Red, Brushes.Green, Brushes.Yellow, Brushes.Magenta };
+        SequenzaColori sequenzaSegreta { get; set; }
         Random rnd = new Random();
         Brush colore=Brushes.White;
-        Master[] prove = new Master[8];
+        SequenzaColori[] prove = new SequenzaColori[8];
 
         int tentativi = 0;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            riempiAcaso(sequenzaSegreta);
-
-            s1.Fill = sequenzaSegreta.colore1;
-            s2.Fill = sequenzaSegreta.colore2;
-            s3.Fill = sequenzaSegreta.colore3;
-            s4.Fill = sequenzaSegreta.colore4;
-
-            for (int i = 0; i < prove.Length; i++) {
-                prove[i] = new Master();
-                prove[i].colore1 = Brushes.White;
-                prove[i].colore2 = Brushes.White;
-                prove[i].colore3 = Brushes.White;
-                prove[i].colore4 = Brushes.White;
-                prove[i].colorePos=0;
-                prove[i].soloColore=0;
-            }
-
-            dgDati.ItemsSource = prove;
         }
 
-        void riempiAcaso(Master _m)
+        void riempiAcaso(SequenzaColori _m)
         {
             int indiceCaso = rnd.Next(0, 4);
             _m.colore1 = coloriUsati[indiceCaso];
@@ -89,7 +73,6 @@ namespace Nasini.Michele._3H.MasterMind
         {
             if (tentativi < prove.Length)
             {
-
                 string riga = $"{p1.Fill};{p2.Fill};{p3.Fill};{p4.Fill}";
                 
                 // Scrittura
@@ -125,5 +108,87 @@ namespace Nasini.Michele._3H.MasterMind
             var b = new SolidColorBrush(c);
             return b;
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            // dove noi teniamo la sequenza segreta
+            sequenzaSegreta = new SequenzaColori();
+
+            try
+            {
+                // Apriamo il file per leggere la sequenza segreta
+                StreamReader fin = new StreamReader(NOMEFILE_SEQUENZASEGRETA);
+                string riga = fin.ReadLine();
+                string[] colonne = riga.Split(';');
+
+                // La riga deve essere di quattro elementi divisi dal carattere ;
+                if ( colonne.Count() == 4 )
+                {
+                    int idx;
+                    int.TryParse(colonne[0], out idx);
+                    sequenzaSegreta.colore1 = coloriUsati[idx];
+
+                    int.TryParse(colonne[1], out idx);
+                    sequenzaSegreta.colore2 = coloriUsati[idx];
+
+                    int.TryParse(colonne[2], out idx);
+                    sequenzaSegreta.colore3 = coloriUsati[idx];
+
+                    int.TryParse(colonne[3], out idx);
+                    sequenzaSegreta.colore4 = coloriUsati[idx];
+                }
+                else
+                    // Se il file non è corretto... genera la sequenza casuale.
+                    riempiAcaso(sequenzaSegreta);
+            }
+            catch
+            {
+                // se il file non esiste... genera la sequenza casuale.
+                riempiAcaso(sequenzaSegreta);
+            }
+
+            // Visualizza i colori...
+            s1.Fill = sequenzaSegreta.colore1;
+            s2.Fill = sequenzaSegreta.colore2;
+            s3.Fill = sequenzaSegreta.colore3;
+            s4.Fill = sequenzaSegreta.colore4;
+
+            for (int i = 0; i < prove.Length; i++)
+            {
+                prove[i] = new SequenzaColori();
+                prove[i].colore1 = Brushes.White;
+                prove[i].colore2 = Brushes.White;
+                prove[i].colore3 = Brushes.White;
+                prove[i].colore4 = Brushes.White;
+                prove[i].colorePos = 0;
+                prove[i].soloColore = 0;
+            }
+
+            dgDati.ItemsSource = prove;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // Prima di uscire dal programma, viene chiamato questo evento.
+
+            // prepara la stringa da salvare
+            string riga = $"{indexcolore(sequenzaSegreta.colore1)};{indexcolore(sequenzaSegreta.colore2)};{indexcolore(sequenzaSegreta.colore3)};{indexcolore(sequenzaSegreta.colore4)}";
+            
+            // Salva la stringa nel file segreto...
+            StreamWriter fout = new StreamWriter(NOMEFILE_SEQUENZASEGRETA);
+            fout.WriteLine(riga);
+            fout.Close();
+
+        }
+
+        public int indexcolore(Brush _B) {
+            for (int i = 0; i < coloriUsati.Length; i++) {
+                if (_B == coloriUsati[i]) {
+                    return i;
+                }
+            }
+            return 0;
+        }
+
     }
 }

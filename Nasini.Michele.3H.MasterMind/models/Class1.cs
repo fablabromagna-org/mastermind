@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 
 namespace Nasini.Michele._3H.MasterMind.models
 {
-    class Master
+    class SequenzaColori
     {
         public Brush colore1 { get; set; }
 
